@@ -24,9 +24,13 @@ def get_answer_for_question(question: str, knowledge_base: dict) -> Optional[str
 def chat_bot():
     knowledge_base: dict = load_knowledge_base('knowledge_base.json')
 
+    print("Selamat datang di ChatBot! Ketik 'quit' untuk keluar.")
+    print("="*50)
+    
     while True:
         user_input: str = input('You: ')
         if user_input.lower() == 'quit':
+            print("Terima kasih telah menggunakan ChatBot. Sampai jumpa!")
             break
 
         best_match: Optional[str] = find_best_match(user_input, [q["question"] for q in knowledge_base["questions"]])
@@ -35,13 +39,15 @@ def chat_bot():
             answer: Optional[str] = get_answer_for_question(best_match, knowledge_base)
             print(f'Bot: {answer}')
         else:
-            print('Bot: I don\'t know the answer. Can you teach me?')
-            new_answer: str = input('Type the answer or "skip" to skip: ')
+            print('Bot: Saya tidak tahu jawabannya. Bisakah Anda mengajarkan saya?')
+            new_answer: str = input('Ketik jawabannya atau "skip" untuk melewati: ')
 
             if new_answer.lower() != 'skip':
                 knowledge_base["questions"].append({"question": user_input, "answer": new_answer})
                 save_knowledge_base('knowledge_base.json', knowledge_base)
-                print('Bot: Thank you! I learned a new response!')
+                print('Bot: Terima kasih! Saya belajar respon baru!')
+
+        print("="*50)
 
 if __name__ == '__main__':
     chat_bot()
